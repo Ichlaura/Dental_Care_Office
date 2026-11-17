@@ -3,17 +3,36 @@ import{createRoot}from'react-dom/client';
 import{ArrowRight,CalendarDays,ShieldCheck,CreditCard,RefreshCw,ClipboardCheck,ReceiptText,Menu,X,Mail,Phone,Instagram,ExternalLink,CheckCircle2,ChevronDown,MapPin,ArrowUpRight}from'lucide-react';
 import details from './serviceDetails.json';
 import './style.css';
-const designs=[{id:'blue',label:'01 · Main Design'},{id:'light',label:'02 · Alternative Design'}];
 const icons=[ShieldCheck,CreditCard,RefreshCw,ClipboardCheck,ReceiptText];
 const services=[{title:'Insurance Verification',desc:'Detailed eligibility, benefits, and plan limitations verified for your team.',id:'insurance'},{title:'Payment Posting',desc:'Organized EOB posting, payment tracking, and reporting support.',id:'posting'},{title:'Deposit Reconciliation',desc:'Accurate matching of EFTs, deposits, and billing records.',id:'eft'},{title:'Predetermination Support',desc:'Structured case follow-up and status updates for your clinic.',id:'predetermination'},{title:'Billing Support',desc:'Administrative billing support tailored to your practice.',id:'billing'}];
 function Wave({reverse=false}){return <div className={'wave '+(reverse?'reverse':'')} aria-hidden="true"><svg viewBox="0 0 1440 110" preserveAspectRatio="none"><path d="M0 68 C250 -25 420 135 740 52 S1180 -10 1440 54"/><path className="thin" d="M0 85 C320 10 480 124 770 71 S1220 2 1440 75"/></svg></div>}
-function App(){const[theme,setTheme]=useState(()=>localStorage.getItem('dco-theme-v2')||'blue');const[menu,setMenu]=useState(false);const[active,setActive]=useState('insurance');useEffect(()=>{localStorage.setItem('dco-theme-v2',theme)},[theme]);useEffect(()=>{function hash(){let id=location.hash.slice(1);if(details.some(d=>d.id===id))setActive(id)}window.addEventListener('hashchange',hash);hash();return()=>window.removeEventListener('hashchange',hash)},[]);const selectDetail=id=>{setActive(id);document.getElementById('details')?.scrollIntoView({behavior:'smooth'});history.replaceState(null,'','#'+id)};return <div className={'site theme-'+theme}>
 
 
-<div className="design-picker">
-    <span className="picker-caption">PREVIEW DESIGN</span>
-    <div className="picker-buttons">{designs.map(d=><button key={d.id} onClick={()=>setTheme(d.id)} className={theme===d.id?'selected':''} aria-pressed={theme===d.id}>{d.label}</button>)}</div>
-    <span className="preview-only">Client preview</span></div>
+function App(){
+  const theme = 'blue';
+  const [menu,setMenu] = useState(false);
+  const [active,setActive] = useState('insurance');
+
+  useEffect(()=>{
+    function hash(){
+      let id = location.hash.slice(1);
+      if(details.some(d=>d.id===id)) setActive(id);
+    }
+    window.addEventListener('hashchange',hash);
+    hash();
+    return ()=>window.removeEventListener('hashchange',hash);
+  },[]);
+
+  const selectDetail = id=>{
+    setActive(id);
+    document.getElementById('details')?.scrollIntoView({behavior:'smooth'});
+    history.replaceState(null,'','#'+id);
+  };
+
+  return <div className={'site theme-'+theme}>
+
+
+
 <main>
    
    
